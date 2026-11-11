@@ -1,0 +1,76 @@
+<main class="todo-page">
+  <section class="todo-card" aria-labelledby="page-title">
+    <h1 id="page-title">Todos</h1>
+
+    <form class="new-task" (ngSubmit)="addTask()">
+      <span class="chevron" aria-hidden="true">⌄</span>
+      <input
+        name="newTask"
+        [(ngModel)]="newTask"
+        required
+        placeholder="What needs to be done?"
+        aria-label="New task"
+        autocomplete="off">
+      </form>
+
+      @if (filteredTodos(); as todos) {
+        <ul class="todo-items">
+          @for (todo of todos; track todo.id) {
+            <li
+              class="todo-item"
+              [class.completed]="todo.status === 'done'"
+              [appEditMode]="todo"
+              (editModeChange)="$event ? startEdit(todo) : finishEdit(todo)">
+              <button
+                class="status-button"
+                type="button"
+                [attr.aria-label]="todo.status === 'done' ? 'Mark task as in progress' : 'Mark task as done'"
+                (click)="toggleTask(todo.id)">
+                <span aria-hidden="true"></span>
+              </button>
+              @if (editingId !== todo.id) {
+                <span class="task-title">{{ todo.title }}</span>
+              }
+              @if (editingId === todo.id) {
+                <input
+                  class="edit-input"
+                  [(ngModel)]="editTitle"
+                  [ngModelOptions]="{ standalone: true }"
+                  (keydown.enter)="finishEdit(todo)"
+                  (keydown.escape)="cancelEdit()"
+                  (click)="$event.stopPropagation()"
+                  (blur)="finishEdit(todo)"
+                  aria-label="Edit task"
+                  autocomplete="off"
+                  autofocus>
+              }
+              <button
+                class="delete-button"
+                type="button"
+                aria-label="Delete task"
+                (click)="deleteTask(todo.id)">
+                ×
+              </button>
+            </li>
+          }
+          @if (todos.length === 0) {
+            <li class="empty-state">No tasks here yet.</li>
+          }
+        </ul>
+      }
+
+      <footer class="todo-footer">
+        <span>{{ activeCount() }} item{{ activeCount() === 1 ? '' : 's' }} left</span>
+        <nav aria-label="Task filters">
+          @for (filter of filters; track filter.value) {
+            <a
+              [routerLink]="filter.path"
+              [class.selected]="currentFilter() === filter.value">
+              {{ filter.label }}
+            </a>
+          }
+        </nav>
+        <button type="button" class="clear-link" (click)="clearCompleted()">Clear completed</button>
+      </footer>
+    </section>
+  </main>

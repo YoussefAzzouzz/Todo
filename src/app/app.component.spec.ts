@@ -4,8 +4,7 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule],
-    declarations: [AppComponent]
+    imports: [RouterTestingModule, AppComponent]
   }));
 
   it('should create the app', () => {
@@ -20,10 +19,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('todo-app');
   });
 
-  it('should render title', () => {
+  it('should render the router outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('todo-app app is running!');
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 });
