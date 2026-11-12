@@ -13,6 +13,13 @@
         autocomplete="off">
       </form>
 
+      @if (loading()) {
+        <p class="status-message">Loading tasks...</p>
+      }
+      @if (error(); as errorMessage) {
+        <p class="status-message error" role="alert">{{ errorMessage }}</p>
+      }
+
       @if (filteredTodos(); as todos) {
         <ul class="todo-items">
           @for (todo of todos; track todo.id) {

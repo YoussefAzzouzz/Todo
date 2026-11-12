@@ -34,6 +34,8 @@ export class TodoListComponent {
   readonly activeCount = computed(() =>
     this.todoService.todos().filter(todo => todo.status === 'in-progress').length
   );
+  readonly loading = this.todoService.loading;
+  readonly error = this.todoService.error;
   readonly filters: ReadonlyArray<{ label: string; path: string; value: TodoFilter }> = [
     { label: 'All', path: '/all', value: 'all' },
     { label: 'In progress', path: '/in-progress', value: 'in-progress' },

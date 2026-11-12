@@ -42,6 +42,19 @@ h1 {
   outline: 0;
 }
 
+.status-message {
+  margin: 0;
+  border-bottom: 1px solid #eef0f3;
+  padding: .8rem 1rem;
+  color: #8a96a3;
+  font-size: .85rem;
+  text-align: center;
+}
+
+.status-message.error {
+  color: #b04a4a;
+}
+
 .chevron {
   padding: 0 1rem;
   color: #98a2b3;
